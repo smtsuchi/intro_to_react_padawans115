@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import Card from './Card';
-import Post from './Post';
 import { Button } from '@mui/material';
 export default class Home extends Component {
     constructor() {
@@ -31,7 +29,6 @@ export default class Home extends Component {
                     +
                 </button>
 
-                <Post age={this.props.age}/>
                 <Button variant="contained">Contained</Button>
 
             </div>
