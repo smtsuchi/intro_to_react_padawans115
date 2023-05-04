@@ -22,12 +22,36 @@ export default class Navbar extends Component {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/news">News</Link>
                             </li>
-                            <li className="nav-item">
-                                <p className="nav-link">Hello, {this.props.user.username}</p>
-                                <button onClick={this.props.switchUser}>Switch User</button>
-                            </li>
+                            {
+                                this.props.user.apitoken ? //logged in
+                                    (
+                                        <>
+                                            <li className="nav-item">
+                                                <Link className="nav-link" to="/login" onClick={this.props.logMeOut}>Log Out</Link>
+                                            </li>
+                                            <li className="nav-item">
+                                                <p className="nav-link" >Hello, {this.props.user.username}</p>
+                                            </li>
+                                        </>
+                                    )
+                                    :
+                                    (
+                                        <>
+                                            <li className="nav-item">
+                                                <Link className="nav-link" to="/login">Login</Link>
+                                            </li>
+                                            <li className="nav-item">
+                                                <Link className="nav-link" to="/signup">Sign Up</Link>
+                                            </li>
+                                        </>
+                                    )
+                            }
+
+
+
+
                         </ul>
-                        
+
                     </div>
                 </div>
             </nav>

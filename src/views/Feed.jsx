@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Post from '../components/Post';
 
+
 export default class Feed extends Component {
     constructor(){
         super();
@@ -14,7 +15,7 @@ export default class Feed extends Component {
 
 
     getPosts = async () => {
-        const res = await fetch(`https://finstagram-padawans115.onrender.com/api/posts`);
+        const res = await fetch(`http://127.0.0.1:5000/api/posts`);
         const data = await res.json();
         console.log(data)
         if (data.status === 'ok'){
