@@ -1,25 +1,25 @@
 import React, { Component } from 'react'
 import Post from '../components/Post';
+import { Link } from 'react-router-dom';
+import { getPosts } from '../apiHelperFuncs/igCalls';
 
 
 export default class Feed extends Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
             posts: []
         }
     }
     showPosts = () => {
-        return this.state.posts.map(p => <Post key={p.id} postInfo={p}/>)
+        return this.state.posts.map(p => <Link key={p.id} to={`/posts/${p.id}`}><Post postInfo={p} /></Link>)
     };
 
 
     getPosts = async () => {
-        const res = await fetch(`http://127.0.0.1:5000/api/posts`);
-        const data = await res.json();
-        console.log(data)
-        if (data.status === 'ok'){
-            this.setState({posts: data.posts})
+        const data = await getPosts()
+        if (data.status === 'ok') {
+            this.setState({ posts: data.posts })
         }
     };
 
@@ -33,10 +33,13 @@ export default class Feed extends Component {
 
     render() {
         return (
-            <div>
+            <>
                 <h1>All Posts</h1>
-                { this.showPosts() }
-            </div>
+                <Link to='/posts/create' className='btn btn-success'>+</Link>
+                <div className='row'>
+                    {this.showPosts()}
+                </div>
+            </>
         )
     }
 }
