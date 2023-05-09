@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 
 export default function UpdatePost({ user }) {
     const { postId } = useParams()
     const [post, setPost] = useState({})
+    const [redirect, setRedirect] = useState(false)
 
 
     const getPostInfo = async () => {
@@ -47,12 +48,14 @@ export default function UpdatePost({ user }) {
         const data = await res.json();
         console.log(data)
         if (data.status === 'ok'){
-            // redirect to that specific post
+            // redirect to that specific 
+            setRedirect(true)
         }
 
     };
 
-  return (
+  return redirect?<Navigate to={`/posts/${postId}`} />:
+  (
     <div>
         <form onSubmit={handleSubmit}>
             <input type="text" name='title' placeholder='title' defaultValue={post.title}/>

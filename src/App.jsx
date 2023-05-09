@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Home from './views/Home';
 import Navbar from './components/Navbar';
 import News from './views/News';
@@ -10,17 +10,75 @@ import NewsFunction from './views/NewsFunction';
 import SinglePost from './views/SinglePost';
 import CreatePost from './views/CreatePost';
 import UpdatePost from './views/UpdatePost';
+import Shop from './views/Shop';
+import Cart from './views/Cart';
+
+const getUserFromLocalStorage = () => {
+  const found = localStorage.getItem('user115')
+  if ( found ) {
+    return JSON.parse(found)
+  }
+  return {}
+}
 
 export default function App() {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(getUserFromLocalStorage)
+  const [cart, setCart] = useState([])
 
-  const logMeIn = (user) => {
+  const getTotal = (cart) => {
+    let total = 0
+    for (let item of cart) {
+      total += parseFloat(item.price)
+    }
+    return total.toFixed(2)
+  }
+  
+  const addToCart = (item) => {
+    setCart([...cart, item])
+  };
+
+  const removeFromCart = (item) => {
+    const copy = [...cart]
+    for (let i = cart.length-1; i>=0; i--){
+      if (item.id === cart[i].id){
+        copy.splice(i, 1);
+        break
+      }
+    }
+    setCart(copy)
+  };
+
+  useEffect(()=>{
+    getCart()
+  }, [user])
+
+  const getCart = async () => {
+    if (user.apitoken){
+      const res = await fetch('http://127.0.0.1:5000/api/cart', {
+      headers: {Authorization: `Bearer ${user.apitoken}`}
+      });
+      const data = await res.json();
+      if (data.status === 'ok'){
+        setCart(data.cart)
+      }
+    }
+    
+    else{
+      setCart([])
+    }
+  }
+
+  const logMeIn = (user, rememberMe) => {
     // this.setState({user: user})
     setUser(user)
+    if (rememberMe) {
+      localStorage.setItem('user115', JSON.stringify(user))
+    }
   };
   const logMeOut = () => {
     // this.setState({user:{}})
     setUser({})
+    localStorage.removeItem('user115')
   };
   // create a function that routes somewhere...
 
@@ -28,20 +86,23 @@ export default function App() {
 
   return (
     <div>
-      <Navbar user={user} logMeOut={logMeOut} />
+      <Navbar user={user} logMeOut={logMeOut} cart={cart} getTotal={getTotal}/>
       {/* <h1>Hello World</h1> */}
       <Routes>
         <Route path='/' element={<Home user={user} age='9000' />} />
         <Route path='/news' element={<News user={user} />} />
         <Route path='/news2' element={<NewsFunction user={user} />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/login' element={<Login logMeIn={logMeIn} />} />
+        <Route path='/login' element={<Login logMeIn={logMeIn} user={user}/>} />
         <Route path='/signup' element={<SignUp />} />
         
         <Route path='/posts/:postId' element={<SinglePost user={user}/>} />
 
         <Route path='/posts/create' element={<CreatePost user={user}/>} />
         <Route path='/posts/update/:postId' element={<UpdatePost user={user}/>} />
+
+        <Route path='/shop' element={<Shop user={user} addToCart={addToCart}/>} />
+        <Route path='/cart' element={<Cart user={user} removeFromCart={removeFromCart} cart={cart}/>} />
       </Routes>
     </div>
   )

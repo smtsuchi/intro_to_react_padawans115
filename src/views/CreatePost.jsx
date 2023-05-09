@@ -1,6 +1,9 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreatePost({ user }) {
+
+    const redirect = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,6 +32,7 @@ export default function CreatePost({ user }) {
         console.log(data)
         if (data.status === 'ok'){
             // redirect to that specific post
+            redirect(`/posts/${data.post.id}`)
         }
 
     };

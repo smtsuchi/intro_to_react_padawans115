@@ -20,6 +20,9 @@ export default class Navbar extends Component {
                                 <Link className="nav-link" to="/feed">Feed</Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link" to="/shop">Shop</Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link className="nav-link" to="/news">News</Link>
                             </li>
                             {
@@ -46,6 +49,9 @@ export default class Navbar extends Component {
                                         </>
                                     )
                             }
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/cart">{this.props.cart.length} | {this.props.getTotal(this.props.cart)}</Link>
+                            </li>
 
 
 
