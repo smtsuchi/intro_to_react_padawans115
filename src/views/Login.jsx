@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useMessage, useQueryParams } from '../context/MessageContext';
 
 export default function Login({ logMeIn, user }) {
     const navigate = useNavigate()
+    const { addMessage } = useMessage()
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -24,11 +27,17 @@ export default function Login({ logMeIn, user }) {
         const data = await res.json();
         if (data.status === 'ok') {
             const myUserInfo = data.data
+            console.log(data)
             logMeIn(myUserInfo, rememberMe)
             navigate('/feed')
         }
+        addMessage(data.message, data.status==='ok'?'success':'danger')
+        
 
     }
+
+    const params = useQueryParams()
+    
 
     return user.apitoken ? <Navigate to='/feed' /> : (
         <div className='col-4 border p-4'>

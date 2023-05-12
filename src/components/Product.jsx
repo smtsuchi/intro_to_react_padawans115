@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
-export default function Product({ product, addToCart, user }) {
+export default function Product({ product, addToCart }) {
     const p = product
+    
+    const { user } = useContext(UserContext)
 
     const addToCartAPI = async () => {
         if (user.apitoken){

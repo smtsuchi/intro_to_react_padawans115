@@ -1,7 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMessage } from '../context/MessageContext';
 
 export default function CreatePost({ user }) {
+    const {addMessage} = useMessage()
 
     const redirect = useNavigate();
 
@@ -34,6 +36,7 @@ export default function CreatePost({ user }) {
             // redirect to that specific post
             redirect(`/posts/${data.post.id}`)
         }
+        addMessage(data.message, data.status==='ok'?'success':'danger')
 
     };
 

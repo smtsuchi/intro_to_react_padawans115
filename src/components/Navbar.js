@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 export default class Navbar extends Component {
+    
 
     render() {
         return (
@@ -30,7 +31,7 @@ export default class Navbar extends Component {
                                     (
                                         <>
                                             <li className="nav-item">
-                                                <Link className="nav-link" to="/login" onClick={this.props.logMeOut}>Log Out</Link>
+                                                <Link className="nav-link" to="/login?logout=true" onClick={this.props.logMeOut}>Log Out</Link>
                                             </li>
                                             <li className="nav-item">
                                                 <p className="nav-link" >Hello, {this.props.user.username}</p>

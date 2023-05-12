@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Home from './views/Home';
 import Navbar from './components/Navbar';
 import News from './views/News';
@@ -12,6 +12,10 @@ import CreatePost from './views/CreatePost';
 import UpdatePost from './views/UpdatePost';
 import Shop from './views/Shop';
 import Cart from './views/Cart';
+import ShowParams from './views/ShowParams';
+import { useUser } from './context/UserContext';
+import Message from './components/Message';
+import { useMessage } from './context/MessageContext';
 
 const getUserFromLocalStorage = () => {
   const found = localStorage.getItem('user115')
@@ -22,8 +26,13 @@ const getUserFromLocalStorage = () => {
 }
 
 export default function App() {
-  const [user, setUser] = useState(getUserFromLocalStorage)
-  const [cart, setCart] = useState([])
+  // const [user, setUser] = useState(getUserFromLocalStorage)
+
+  const { user, setUser, cart, setCart } = useUser()
+  const { messages } = useMessage()
+
+
+  // const [cart, setCart] = useState([])
 
   const getTotal = (cart) => {
     let total = 0
@@ -82,12 +91,16 @@ export default function App() {
   };
   // create a function that routes somewhere...
 
-
+  const showMessages = () => {
+    return messages.map(({text, color}, index) => <Message key={index} text={text} color={color} index={index}/>)
+  }
 
   return (
     <div>
       <Navbar user={user} logMeOut={logMeOut} cart={cart} getTotal={getTotal}/>
-      {/* <h1>Hello World</h1> */}
+      
+      { showMessages() }
+
       <Routes>
         <Route path='/' element={<Home user={user} age='9000' />} />
         <Route path='/news' element={<News user={user} />} />
@@ -101,8 +114,10 @@ export default function App() {
         <Route path='/posts/create' element={<CreatePost user={user}/>} />
         <Route path='/posts/update/:postId' element={<UpdatePost user={user}/>} />
 
-        <Route path='/shop' element={<Shop user={user} addToCart={addToCart}/>} />
+        <Route path='/shop' element={<Shop addToCart={addToCart}/>} />
         <Route path='/cart' element={<Cart user={user} removeFromCart={removeFromCart} cart={cart}/>} />
+
+        <Route path='/test/:page' element={<ShowParams prop1='hi' prop2='there'/>}/>
       </Routes>
     </div>
   )
