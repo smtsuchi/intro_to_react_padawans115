@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useMessage, useQueryParams } from '../context/MessageContext';
-
+const BACK_END_URL = process.env.REACT_APP_BACK_END_URL
 export default function Login({ logMeIn, user }) {
     const navigate = useNavigate()
     const { addMessage } = useMessage()
@@ -15,7 +15,7 @@ export default function Login({ logMeIn, user }) {
         const rememberMe = e.target.rememberMe.checked;
 
 
-        const url = 'http://127.0.0.1:5000/api/login';
+        const url = BACK_END_URL+ '/api/login';
         const options = {
             method: "POST",
             headers: {
@@ -37,6 +37,7 @@ export default function Login({ logMeIn, user }) {
     }
 
     const params = useQueryParams()
+    console.log(params)
     
 
     return user.apitoken ? <Navigate to='/feed' /> : (

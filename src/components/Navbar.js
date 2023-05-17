@@ -26,6 +26,12 @@ export default class Navbar extends Component {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/news">News</Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/area">Area</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/window">Window</Link>
+                            </li>
                             {
                                 this.props.user.apitoken ? //logged in
                                     (

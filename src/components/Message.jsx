@@ -7,9 +7,9 @@ export default function Message({ color, text, index }) {
     const { removeMessage } = useMessage()
 
     return (
-        <div class={`alert alert-${color} alert-dismissible fade show`} >
+        <div className={`alert alert-${color} alert-dismissible fade show`} >
            { text }
-            <button type="button" class="btn-close" onClick={()=>{removeMessage(index)}}></button>
+            <button type="button" className="btn-close" onClick={()=>{removeMessage(index)}}></button>
         </div>
     )
 }

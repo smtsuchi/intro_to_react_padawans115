@@ -16,6 +16,8 @@ import ShowParams from './views/ShowParams';
 import { useUser } from './context/UserContext';
 import Message from './components/Message';
 import { useMessage } from './context/MessageContext';
+import Area from './views/Area';
+import Window from './views/Window';
 
 const getUserFromLocalStorage = () => {
   const found = localStorage.getItem('user115')
@@ -118,6 +120,10 @@ export default function App() {
         <Route path='/cart' element={<Cart user={user} removeFromCart={removeFromCart} cart={cart}/>} />
 
         <Route path='/test/:page' element={<ShowParams prop1='hi' prop2='there'/>}/>
+        <Route path='/area' element={<Area />}/>
+        <Route path='/window' element={<Window />}/>
+
+
       </Routes>
     </div>
   )

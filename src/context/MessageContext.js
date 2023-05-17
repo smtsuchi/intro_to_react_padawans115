@@ -9,12 +9,9 @@ export const useMessage = () => {
 }
 
 export const useQueryParams = () => {
-    const [queryParams, setQueryParams] = useState(null)
-    useEffect(()=>{
-        console.log(window.location.search)
-        const query = new URLSearchParams(window.location.search);
-        setQueryParams(query)
-    }, [])
+    const query = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(query.entries());
+    return params
 }
 
 
